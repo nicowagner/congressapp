@@ -6,6 +6,10 @@ import { ListComponent } from './components/list/list.component';
 import { DetailViewComponent } from './components/detail-view/detail-view.component';
 import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -15,7 +19,14 @@ import { SharedModule } from '../shared/shared.module';
     DetailViewComponent,
     HomeComponent,
   ],
-  imports: [CommonModule, SharedModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
+    MatInputModule,
+  ],
   exports: [
     HeaderComponent,
     FooterComponent,
