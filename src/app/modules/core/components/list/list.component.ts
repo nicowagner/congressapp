@@ -1,105 +1,75 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
+import { Member } from 'src/app/modules/shared/models/member.model';
+import { MemberService } from '../../services/member.service';
+interface Members {
+  results: [{ members: Member }];
 }
-
-/** Constants used to fill up our data base. */
-const COLORS: string[] = [
-  'maroon',
-  'red',
-  'orange',
-  'yellow',
-  'olive',
-  'green',
-  'purple',
-  'fuchsia',
-  'lime',
-  'teal',
-  'aqua',
-  'blue',
-  'navy',
-  'black',
-  'gray',
-];
-const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
-];
-
-/**
- * @title Data table with sorting, pagination, and filtering.
- */
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements AfterViewInit {
-  displayedColumns: string[] = ['id', 'name', 'progress', 'color'];
-  dataSource: MatTableDataSource<UserData>;
+export class ListComponent implements OnInit, AfterViewInit {
+  data: any;
+  displayedColumns: string[];
+  dataSource: MatTableDataSource<Member>;
+
+  filteredValue: string;
+  filteredCategories: string[];
+
+  categories = new FormControl('');
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {
-    // Create 100 users
-    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
+  constructor(private membersService: MemberService) {}
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+  ngOnInit() {
+    this.membersService.getMembers().subscribe((data: Members) => {
+      this.data = data.results[0].members;
+      console.log(this.data);
+      this.displayedColumns = this.retrieveColumnsNames(this.data[0]);
+      console.log(this.displayedColumns);
+      this.dataSource = new MatTableDataSource(this.data);
+      console.log(this.dataSource);
+
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+      this.categories.valueChanges.subscribe((input) => {
+        console.log('hpolsjiajdij' + input);
+      });
+    });
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  categoriesFilter(value) {
+    this.filteredCategories = value;
   }
+
+  ngAfterViewInit() {}
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
+    this.filteredValue = filterValue;
+
+    console.log(this.filteredValue);
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-}
 
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-  const name =
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-    ' ' +
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-    '.';
+  retrieveColumnsNames(data): string[] {
+    const list = [];
+    for (let key in data) {
+      list.push(key);
+    }
 
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))],
-  };
+    return list;
+  }
 }

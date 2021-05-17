@@ -10,6 +10,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
+import { MemberService } from './services/member.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,6 +30,8 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatPaginatorModule,
     MatInputModule,
+    HttpClientModule,
+    MatSelectModule,
   ],
   exports: [
     HeaderComponent,
@@ -34,5 +40,6 @@ import { MatInputModule } from '@angular/material/input';
     DetailViewComponent,
     HomeComponent,
   ],
+  providers: [MemberService],
 })
 export class CoreModule {}
