@@ -13,7 +13,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const apiKey = 'fHPsP3FajWwnkwBcsqjpjCKdtGrds7kivANIkAX';
+    const apiKey = 'fHPsP3FajWwnkwxBcsqjpjCKdtGrds7kivANIkAX';
 
     if (!apiKey) {
       return next.handle(req);
