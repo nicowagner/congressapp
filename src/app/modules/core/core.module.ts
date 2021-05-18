@@ -11,9 +11,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { MemberService } from './services/member.service';
 import { HttpClientModule } from '@angular/common/http';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     HttpClientModule,
     MatSelectModule,
+    MatSlideToggleModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     HeaderComponent,

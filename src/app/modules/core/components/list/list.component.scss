@@ -1,5 +1,11 @@
 .list-container {
   padding: 30px;
+  .toggle-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
   table {
     width: 100%;
   }

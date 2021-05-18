@@ -3,30 +3,22 @@
     <mat-label>Search</mat-label>
     <input
       matInput
-      (keyup)="applyFilter($event)"
-      [formControl]="filteredValue"
+      (keyup)="applyFilter($event.target.value)"
+      [(ngModel)]="search"
       #input
     />
   </mat-form-field>
 
-  <div class="advance-search">
+  <div class="toggle-button">
+    <mat-slide-toggle [checked]="advancedSearch" (toggleChange)="toggleSearch()"
+      >Advanced Search</mat-slide-toggle
+    >
+  </div>
+
+  <div class="advance-search" *ngIf="advancedSearch">
     <mat-form-field appearance="fill">
-      <mat-label>Categories</mat-label>
-      <mat-select
-        [formControl]="categories"
-        multiple
-        (selectionChange)="categoriesFilter($event.value)"
-      >
-        <mat-select-trigger>
-          {{ categories.value ? categories.value[0] : "" }}
-          <span
-            *ngIf="categories.value?.length > 1"
-            class="example-additional-selection"
-          >
-            (+{{ categories.value.length - 1 }}
-            {{ categories.value?.length === 2 ? "other" : "others" }})
-          </span>
-        </mat-select-trigger>
+      <mat-label>Search by category</mat-label>
+      <mat-select (selectionChange)="categoryFilter($event.value)">
         <mat-option
           *ngFor="let category of displayedColumns"
           [value]="category"

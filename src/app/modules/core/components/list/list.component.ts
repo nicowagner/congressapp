@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -13,7 +13,7 @@ interface Members {
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit, AfterViewInit {
+export class ListComponent implements OnInit {
   data: any;
   displayedColumns: string[];
   dataSource: MatTableDataSource<Member>;
@@ -22,6 +22,8 @@ export class ListComponent implements OnInit, AfterViewInit {
   filteredCategories: string[];
 
   categories = new FormControl('');
+  search = '';
+  advancedSearch: boolean;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -31,37 +33,36 @@ export class ListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.membersService.getMembers().subscribe((data: Members) => {
       this.data = data.results[0].members;
-      console.log(this.data);
       this.displayedColumns = this.retrieveColumnsNames(this.data[0]);
-      console.log(this.displayedColumns);
       this.dataSource = new MatTableDataSource(this.data);
-      console.log(this.dataSource);
 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-
-      this.categories.valueChanges.subscribe((input) => {
-        console.log('hpolsjiajdij' + input);
-      });
     });
+  }
+
+  toggleSearch() {
+    this.advancedSearch = !this.advancedSearch;
+  }
+
+  categoryFilter(column: string) {
+    this.search = '';
+
+    this.dataSource.filterPredicate = (d: Member, filter: string) => {
+      const textToSearch = (d[column] && d[column].toLowerCase()) || '';
+      return textToSearch.indexOf(filter) !== -1;
+    };
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   categoriesFilter(value) {
     this.filteredCategories = value;
-  }
-
-  ngAfterViewInit() {}
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.filteredValue = filterValue;
-
-    console.log(this.filteredValue);
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.dataSource.filterPredicate = (data, filter) => {
+      return data[value].indexOf(filter) !== -1;
+    };
   }
 
   retrieveColumnsNames(data): string[] {
