@@ -1,1 +1,25 @@
-<p>detail-view works!</p>
+<div class="member-container">
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="card-container" *ngIf="!loading">
+    <mat-card class="member">
+      <div><span class="title">ID:</span> {{ memberInfo?.id }}</div>
+      <div>
+        <span class="title">FIRST NAME:</span> {{ memberInfo?.first_name }}
+      </div>
+      <div>
+        <span class="title">LAST NAME:</span> {{ memberInfo?.last_name }}
+      </div>
+      <div><span class="title">TITLE:</span> {{ memberInfo?.title }}</div>
+      <div>
+        <span class="title">FACEBOOK ACCOUNT:</span>
+        {{ memberInfo?.facebook_account }}
+      </div>
+    </mat-card>
+    <div class="back-button">
+      <button mat-raised-button color="primary" routerLink="/">Back</button>
+    </div>
+  </div>
+</div>

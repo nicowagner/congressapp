@@ -1,3 +1,12 @@
+.loading-container {
+  min-height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  transition: 1s ease;
+}
+
 .list-container {
   padding: 30px;
   .toggle-button {
@@ -13,6 +22,14 @@
   .mat-form-field {
     font-size: 14px;
     width: 100%;
+  }
+
+  .mat-row {
+    cursor: pointer;
+    transition: 0.5s ease;
+    &:hover {
+      background-color: #dcdcdc;
+    }
   }
 
   td,

@@ -1,0 +1,18 @@
+.member-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px 0;
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .member {
+      width: 400px;
+    }
+    .back-button {
+      width: 100px;
+      margin-top: 50px;
+    }
+  }
+}

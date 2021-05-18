@@ -24,6 +24,7 @@ export class ListComponent implements OnInit {
   categories = new FormControl('');
   search = '';
   advancedSearch: boolean;
+  loading: boolean = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -38,6 +39,8 @@ export class ListComponent implements OnInit {
 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+
+      this.loading = false;
     });
   }
 
